@@ -1,15 +1,13 @@
 package com.example.animalcare;
 
-
+import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 
-import androidx.appcompat.app.AppCompatActivity;
-
-public class Loginactivity extends AppCompatActivity {
+public class HomeActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_loginactivity);
+        setContentView(R.layout.activity_home);
     }
 }
