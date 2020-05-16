@@ -11,7 +11,7 @@
         android:layout_width="263dp"
         android:layout_height="45dp"
         android:layout_marginTop="104dp"
-        android:text="Welcome to AniCare"
+        android:text="Welcome to Animal Care"
         android:textAlignment="center"
         android:textSize="24sp"
         app:layout_constraintBottom_toTopOf="@+id/LoginUsername"
