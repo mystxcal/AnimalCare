@@ -33,7 +33,7 @@ public class MainActivity extends AppCompatActivity {
 
         if(fbUser!=null){
             Intent i = new Intent(MainActivity.this , HomeActivity.class);
-          //  finish();
+            finish();
             startActivity(i);
         }
 
