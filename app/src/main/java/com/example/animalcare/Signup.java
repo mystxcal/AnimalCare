@@ -14,19 +14,22 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 public class Signup extends AppCompatActivity {
 
-    TextView emailid = (TextView) findViewById(R.id.emailText);
-    TextView pass = (TextView) findViewById(R.id.password);
-    Button signupBtn =findViewById(R.id.signupbtn);
     FirebaseAuth fb;
+    TextView emailid, pass ;
+    Button signupBtn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_signup);
 
+         emailid = (TextView) findViewById(R.id.emailText);
+         pass = (TextView) findViewById(R.id.LoginPassword);
+         signupBtn =findViewById(R.id.Signupbtn2);
 
 
         signupBtn.setOnClickListener(new View.OnClickListener() {
@@ -48,26 +51,62 @@ public class Signup extends AppCompatActivity {
                 }
                 else if(!email.isEmpty() && !passwd.isEmpty())
                 {
+
+//                    fb.createUserWithEmailAndPassword(email,passwd).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+//                        @Override
+//                        public void onComplete(@NonNull Task<AuthResult> task) {
+//                            if(!task.isSuccessful())
+//                            {
+//                                Toast.makeText(Signup.this,"SignUp Failed",Toast.LENGTH_LONG).show();
+//                            }
+//                            else
+//                            {
+//                                Toast.makeText(Signup.this,"SignUp Successfull",Toast.LENGTH_LONG).show();
+//                               // sendemailverification();
+//                               // startActivity(new Intent(Signup.this,HomeActivity.class));
+//
+//                            }
+//                        }
+//                    });
+
                     fb.createUserWithEmailAndPassword(email,passwd).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                         @Override
                         public void onComplete(@NonNull Task<AuthResult> task) {
-                            if(!task.isSuccessful())
-                            {
-                                Toast.makeText(Signup.this,"SignUp Failed",Toast.LENGTH_LONG).show();
-                            }
-                            else
-                            {
-                                startActivity(new Intent(Signup.this,HomeActivity.class));
+                            if (task.isSuccessful()) {
+                            Toast.makeText(Signup.this,"SignUp Successfull",Toast.LENGTH_LONG).show();
+                                sendemailverification();
+
+                            } else {
+                                Toast.makeText(Signup.this, "SignUp Unsuccessfull!", Toast.LENGTH_SHORT).show();
                             }
                         }
                     });
+
+
                 }
             }
         });
 
-
-
-
+    }
+    private void sendemailverification(){
+        FirebaseUser user = fb.getCurrentUser();
+        if(user!=null){
+            user.sendEmailVerification().addOnCompleteListener(new OnCompleteListener<Void>() {
+                @Override
+                public void onComplete(@NonNull Task<Void> task) {
+                    if(task.isSuccessful()){
+                        Toast.makeText(Signup.this, "Registration Successful! Verification Mail Sent", Toast.LENGTH_LONG).show();
+                        fb.signOut();
+                        finish();
+                        Intent i = new Intent(Signup.this , MainActivity.class);
+                        startActivity(i);
+                    }
+                    else{
+                        Toast.makeText(Signup.this, "Verification Mail Not sent", Toast.LENGTH_LONG).show();
+                    }
+                }
+            });
+        }
     }
 }
 

@@ -22,29 +22,31 @@
 
     <EditText
         android:id="@+id/LoginUsername"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginStart="30dp"
         android:layout_marginTop="41dp"
+        android:layout_marginEnd="30dp"
         android:layout_marginBottom="26dp"
         android:ems="10"
         android:hint="Username"
-        android:inputType="textPersonName"
-        android:textAlignment="center"
-        app:layout_constraintBottom_toTopOf="@+id/password"
+        android:inputType="textEmailAddress"
+        app:layout_constraintBottom_toTopOf="@+id/LoginPassword"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/Maintext" />
 
     <EditText
-        android:id="@+id/password"
-        android:layout_width="wrap_content"
+        android:id="@+id/LoginPassword"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginStart="30dp"
         android:layout_marginTop="26dp"
+        android:layout_marginEnd="30dp"
         android:layout_marginBottom="36dp"
         android:ems="10"
         android:hint="Password"
         android:inputType="textPassword"
-        android:textAlignment="center"
         app:layout_constraintBottom_toTopOf="@+id/Loginbtn"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -61,12 +63,11 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
-        android:id="@+id/Signupbtn1"
+        android:id="@+id/Signupbtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="17dp"
         android:layout_marginBottom="232dp"
-        android:onClick="signUp"
         android:text="SignUp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -81,7 +82,7 @@
         android:layout_marginBottom="17dp"
         android:text="Create New Account"
         android:textAlignment="center"
-        app:layout_constraintBottom_toTopOf="@+id/Signupbtn1"
+        app:layout_constraintBottom_toTopOf="@+id/Signupbtn"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/Loginbtn" />

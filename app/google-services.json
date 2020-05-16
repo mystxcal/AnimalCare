@@ -15,6 +15,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "439306989001-nqi66ija45o4cmh40c7p8gda7u609bi8.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.animalcare",
+            "certificate_hash": "d5546a21304f0e2b29f95ab0ac977fa149dc840e"
+          }
+        },
+        {
           "client_id": "439306989001-pgoo1b2a1vjbakc1huc9hk9sj4ocr3gp.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
