@@ -40,6 +40,16 @@ public class HomeActivity extends AppCompatActivity {
             startActivity(i);
             return true;
         }
+        else if(item.getItemId() == R.id.ItemProfile){
+
+            //firebaseAuth.signOut();
+            //Toast.makeText(this, "LogOut Successfull", Toast.LENGTH_SHORT).show();
+            Intent j = new Intent(HomeActivity.this, profile.class);
+            //finish();
+            startActivity(j);
+            return true;
+        }
+
         return false;
 
     }

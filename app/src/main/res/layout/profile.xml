@@ -1,9 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+
+
     tools:context=".editprofile">
 
     <de.hdodenhof.circleimageview.CircleImageView
@@ -32,9 +36,11 @@
         android:id="@+id/namet"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:textColor="@color/Orange"
 
+        android:textStyle="bold"
         android:layout_alignParentTop="true"
-
+        android:textAlignment="center"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="232dp"
         android:ems="10"
@@ -53,6 +59,10 @@
         android:id="@+id/aboutt"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:textAlignment="center"
+        android:textColor="@color/Orange"
+
+        android:textStyle="bold"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="309dp"
@@ -63,6 +73,8 @@
         android:id="@+id/cnt"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:textAlignment="center"
+
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="364dp"
@@ -72,6 +84,9 @@
         android:id="@+id/contactt"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:textAlignment="center"
+        android:textColor="@color/Orange"
+        android:textStyle="bold"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="397dp"
@@ -80,28 +95,19 @@
 
     <Button
         android:id="@+id/Editbtn"
-        android:layout_width="wrap_content"
+        android:layout_width="119dp"
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
 
         android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginStart="302dp"
+        android:layout_marginStart="285dp"
         android:layout_marginTop="16dp"
-        android:layout_marginEnd="21dp"
+        android:layout_marginEnd="6dp"
         android:text="Edit" />
 
-    <Button
-        android:id="@+id/Refresh"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/contactt"
-        android:layout_alignParentEnd="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="46dp"
-        android:layout_marginEnd="161dp"
-        android:text="Refresh" />
 
 
 </RelativeLayout>
+
