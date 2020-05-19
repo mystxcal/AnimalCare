@@ -22,6 +22,8 @@ public class Signup extends AppCompatActivity {
     TextView emailid, pass ;
     Button signupBtn;
 
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -30,6 +32,7 @@ public class Signup extends AppCompatActivity {
          emailid = (TextView) findViewById(R.id.emailText);
          pass = (TextView) findViewById(R.id.LoginPassword);
          signupBtn =findViewById(R.id.Signupbtn2);
+
 
 
         signupBtn.setOnClickListener(new View.OnClickListener() {
@@ -62,6 +65,7 @@ public class Signup extends AppCompatActivity {
 //                            else
 //                            {
 //                                Toast.makeText(Signup.this,"SignUp Successfull",Toast.LENGTH_LONG).show();
+
 //                               // sendemailverification();
 //                               // startActivity(new Intent(Signup.this,HomeActivity.class));
 //
@@ -75,6 +79,8 @@ public class Signup extends AppCompatActivity {
                             if (task.isSuccessful()) {
                             Toast.makeText(Signup.this,"SignUp Successfull",Toast.LENGTH_LONG).show();
                                 sendemailverification();
+
+
 
                             } else {
                                 Toast.makeText(Signup.this, "SignUp Unsuccessfull!", Toast.LENGTH_SHORT).show();
