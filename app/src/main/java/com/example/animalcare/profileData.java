@@ -3,12 +3,26 @@ package com.example.animalcare;
 import android.widget.EditText;
 
 public class profileData {
-    String name,about,no;
+    String name,about,no,imagename,imageUrl;
 
     public profileData(String name, String about, String no) {
         this.name = name;
         this.about = about;
         this.no = no;
+       // this.imageUrl = imageUrl;
+    }
+
+    public profileData( String imageUrl) {
+        //this.imagename = imagename;
+        this.imageUrl = imageUrl;
+    }
+
+    public String getImagename() {
+        return imagename;
+    }
+
+    public void setImagename(String imagename) {
+        this.imagename = imagename;
     }
 
     public String getName() {
@@ -33,5 +47,13 @@ public class profileData {
 
     public void setNo(String no) {
         this.no = no;
+    }
+
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
     }
 }
