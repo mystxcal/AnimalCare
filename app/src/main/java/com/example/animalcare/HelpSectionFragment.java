@@ -81,8 +81,8 @@ public class HelpSectionFragment extends Fragment {
     private UUID uniqueId;
     private Spinner spinner;
     private String animalType,imageurl;
-    Uri imageUri;
-    ProgressDialog progressDialog;
+    private Uri imageUri;
+    private ProgressDialog progressDialog;
 
 
     public HelpSectionFragment() {
@@ -156,7 +156,7 @@ public class HelpSectionFragment extends Fragment {
                         getContext().getContentResolver(), imageUri);
                 animalImageView.setImageBitmap(animalBitmap);
                 Log.i("IMGURI","-> "+ imageUri.toString());
-                imageurl =getRealPathFromURI(imageUri);
+               // imageurl =getRealPathFromURI(imageUri);
                 Log.i("IMGurl","-> "+ imageurl);
             } catch (Exception e) {
                 e.printStackTrace();
