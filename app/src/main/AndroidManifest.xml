@@ -24,6 +24,8 @@
         <activity android:name=".CreatePostActivity"></activity>
         <activity android:name=".HomeActivity" />
         <activity android:name=".Signup" />
+        <activity android:name=".profile"/>
+        <activity android:name=".editprofile"/>
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

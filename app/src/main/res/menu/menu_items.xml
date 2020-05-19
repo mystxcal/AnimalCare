@@ -1,13 +1,10 @@
-<menu xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
-        android:id="@+id/ItemRefresh"
-        android:title="Feed"
-        app:showAsAction="ifRoom"/>
+        android:title="Profile"
+        android:id="@+id/ItemProfile"/>
     <item
-        android:id="@+id/ItemLogout"
-        android:title="Log Out"
-        app:showAsAction="never"/>
-
+        android:title="Log out"
+        android:id="@+id/ItemLogout"/>
 </menu>
