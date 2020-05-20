@@ -24,7 +24,7 @@ import com.google.firebase.database.ValueEventListener;
 
 public class MainActivity extends AppCompatActivity {
     FirebaseAuth fb;
-    Button signUp, loginBtn;
+    Button signUp, loginBtn,frgtpass;
     EditText userName, userPassword;
     String email,pwd;
     DatabaseReference databaseReference;
@@ -45,11 +45,19 @@ public class MainActivity extends AppCompatActivity {
             startActivity(i);
         }
 
-
+        frgtpass=findViewById(R.id.frgtpassbutton);
         signUp = findViewById(R.id.Signupbtn);
         loginBtn = findViewById(R.id.Loginbtn);
         userName = findViewById(R.id.LoginUsername);
         userPassword = findViewById(R.id.LoginPassword);
+
+
+        frgtpass.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(MainActivity.this, ForgotPass.class));
+            }
+        });
 
         signUp.setOnClickListener(new View.OnClickListener() {
             @Override
