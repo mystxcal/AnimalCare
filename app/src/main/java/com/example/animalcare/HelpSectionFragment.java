@@ -34,21 +34,33 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 import static android.app.Activity.RESULT_OK;
@@ -72,11 +84,21 @@ public class HelpSectionFragment extends Fragment {
     private Bitmap animalBitmap;
     private FirebaseStorage firebaseStorage;
     private StorageReference storageReference;
+    private DatabaseReference myDatabaseRef;
     private UUID uniqueId;
     private Spinner spinner;
-    private String animalType,imageurl;
+    private String animalType,imageurl, Pname="name",Pno="0";
     private Uri imageUri;
     private ProgressDialog progressDialog;
+    final private String FCM_API = "https://fcm.googleapis.com/fcm/send";
+    final private String serverKey = "key=" + "AAAAZki8rck:APA91bGIdYfinRDbRf51zGXOfIdZlFFZsswRgjaCn3DqJF2WSwXlRo_oW-EHtO7MQ-jjJDeFlhzB_6nLx2Gayy6ht7p0M0oiGCc9N1fnKa-sRPbpCuuNCfFKUAE4NlDegoYpabMexzSS";
+    final private String contentType = "application/json";
+    final String TAG = "NOTIFICATION TAG";
+
+   private String NOTIFICATION_TITLE;
+   private String NOTIFICATION_MESSAGE;
+   private String TOPIC;
+    //AnimalHelpCase helpCase;
 
 
     public HelpSectionFragment() {
@@ -116,6 +138,7 @@ public class HelpSectionFragment extends Fragment {
             ActivityCompat.requestPermissions(getActivity(),new String[]{Manifest.permission.ACCESS_FINE_LOCATION},1);
         }
 
+        location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
         location = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
         Geocoder geocoder =new Geocoder(getContext());
         try {
@@ -162,6 +185,84 @@ public class HelpSectionFragment extends Fragment {
         }
     }
 
+    public void sendNotify(AnimalHelpCase helpCase){
+
+        TOPIC ="/topics/animalhelp";// "/topics/userABC"; //topic must match with what the receiver subscribed to
+        NOTIFICATION_TITLE = "ANIMAL HELP REQUIRED";//edtTitle.getText().toString();
+        NOTIFICATION_MESSAGE = "This animal is injured , Please Help !";//edtMessage.getText().toString();
+
+        JSONObject notification = new JSONObject();
+        JSONObject notifcationBody = new JSONObject();
+        try {
+            notifcationBody.put("title", NOTIFICATION_TITLE);
+            notifcationBody.put("message", NOTIFICATION_MESSAGE);
+            //if(helpCase.getUserName()!=null){
+            Log.i("HELPSECTIONACTUSER",helpCase.getUserName());
+            Log.i("HELPSECTIONACTANI",helpCase.getAnimalType());
+            notifcationBody.put("userName",Pname);
+            notifcationBody.put("mobileNo",Pno);
+            notifcationBody.put("animalType",helpCase.getAnimalType());
+            notifcationBody.put("location",helpCase.getUserLocation());
+            notifcationBody.put("lat",String.valueOf(helpCase.getLatitude()));
+            notifcationBody.put("lng",String.valueOf(helpCase.getLongitude()));
+            //}
+
+            notification.put("to", TOPIC);
+            notification.put("data", notifcationBody);
+        } catch (JSONException e) {
+            Log.e(TAG, "onCreate: " + e.getMessage() );
+        }
+        sendNotification(notification);
+
+
+        // The topic name can be optionally prefixed with "/topics/".
+        //String topic = "animalhelp";
+
+// See documentation on defining a message payload.
+//        NotificationCompat.MessagingStyle.Message message = NotificationCompat.MessagingStyle.Message.builder()
+//                .putData("score", "850")
+//                .putData("time", "2:45")
+//                .setTopic(topic)
+//                .build();
+        // Bundle myMsgBundle = new Bundle();
+        //myMsgBundle.put
+        //RemoteMessage remoteMessage = new RemoteMessage();
+
+// Send a message to the devices subscribed to the provided topic.
+        //String response = FirebaseMessaging.getInstance().send(message);
+// Response is a message ID string.
+        //System.out.println("Successfully sent message: " + response);
+    }
+
+    private void sendNotification(JSONObject notification) {
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(FCM_API, notification,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        Log.i(TAG, "onResponse: " + response.toString());
+                        Toast.makeText(getContext(), "Request sent Successfully", Toast.LENGTH_LONG).show();
+                        progressDialog.cancel();
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Toast.makeText(getContext(), "Request error", Toast.LENGTH_LONG).show();
+                        progressDialog.cancel();
+                        Log.i(TAG, "onErrorResponse: Didn't work");
+                    }
+                }){
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> params = new HashMap<>();
+                params.put("Authorization", serverKey);
+                params.put("Content-Type", contentType);
+                return params;
+            }
+        };
+        MySingleton.getInstance(getActivity().getApplicationContext()).addToRequestQueue(jsonObjectRequest);
+    }
+
     private String getRealPathFromURI(Uri contentUri) {
         String[] proj = { MediaStore.Images.Media.DATA };
         Cursor cursor = getActivity().managedQuery(contentUri, proj, null, null, null);
@@ -198,6 +299,7 @@ public class HelpSectionFragment extends Fragment {
         firebaseAuth = firebaseAuth.getInstance();
         firebaseDatabase = firebaseDatabase.getInstance();
         firebaseStorage = firebaseStorage.getInstance();
+        myDatabaseRef=FirebaseDatabase.getInstance().getReference("ProfileData").child(firebaseAuth.getCurrentUser().getUid());
         final ArrayList<String> animals = new ArrayList<>();
         animals.add("Select Animal");
         animals.add("Dog");
@@ -245,16 +347,19 @@ public class HelpSectionFragment extends Fragment {
 
                 if(userLocationTv.getText().toString().equals("Location Details")){
                     Toast.makeText(getContext(), "Please update your Live Location !", Toast.LENGTH_SHORT).show();
+                    return;
                 }
 
                 if(animalType.equals("Select Animal")){
                     Toast.makeText(getContext(), "Please select Animal Type !", Toast.LENGTH_SHORT).show();
+                    return;
                 }
 
                 if(animalBitmap==null){
                     Toast.makeText(getContext(), "Please capture the Image of injured Animal !", Toast.LENGTH_SHORT).show();
+                    return;
                 }
-                else if(!userLocationTv.getText().toString().equals("Location Details") && !animalType.equals("Select Animal")) {
+                else if(!userLocationTv.getText().toString().equals("Locations Details") && !animalType.equals("Select Animal")) {
 
                     progressDialog = new ProgressDialog(getContext());
                     progressDialog.setMessage("Getting help");
@@ -295,14 +400,16 @@ public class HelpSectionFragment extends Fragment {
                 String userLocation = userLocationTv.getText().toString();
                 double lat = location.getLatitude();
                 double lng = location.getLongitude();
-                AnimalHelpCase helpCase = new AnimalHelpCase(UserName,animalType,userLocation,lat,lng);
+               final AnimalHelpCase helpCase = new AnimalHelpCase(UserName,animalType,userLocation,lat,lng);
                 DatabaseReference databaseReference = firebaseDatabase.getReference("Cases");
                 databaseReference.child(uniqueId.toString()).setValue(helpCase).addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
                         if(task.isSuccessful()){
-                            progressDialog.cancel();
-                            Toast.makeText(getContext(), "Case Created Succesfully", Toast.LENGTH_SHORT).show();
+                            //progressDialog.cancel();
+                            getProfileData(helpCase);
+                            //sendNotify(helpCase);
+                            //Toast.makeText(getContext(), "Case Created Succesfully", Toast.LENGTH_SHORT).show();
                             Log.i("HELPCASE","Case Created Succesfully");
                         }
                         else {
@@ -314,6 +421,35 @@ public class HelpSectionFragment extends Fragment {
                 });
             }
         }
+    }
+
+    public void getProfileData(final AnimalHelpCase animalHelpCase){
+        myDatabaseRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                if(dataSnapshot.child("name").getValue()!=null){
+                    Log.i("ISNULL","TRUE");
+//                            Toast.makeText(profile.this, "Please update your profile", Toast.LENGTH_LONG).show();
+//                            Intent intent =new Intent(profile.this, editprofile.class);
+//                            finish();
+//                            startActivity(intent);
+                    //}else {
+                     Pname = dataSnapshot.child("name").getValue().toString();
+                    //String Pabout = dataSnapshot.child("about").getValue().toString();
+                     Pno = dataSnapshot.child("no").getValue().toString();
+                     sendNotify(animalHelpCase);
+                   // FirebaseUser u = FirebaseAuth.getInstance().getCurrentUser();
+
+                    //Toast.makeText(profile.this, "Refreshed", Toast.LENGTH_LONG).show();
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                Log.i("data retrive","failed");
+            }
+        });
     }
 
 }

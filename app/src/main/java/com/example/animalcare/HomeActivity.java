@@ -2,18 +2,26 @@ package com.example.animalcare;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.NotificationCompat;
 import androidx.viewpager.widget.ViewPager;
 
 import android.content.Context;
 import android.content.Intent;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.tabs.TabLayout;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -21,6 +29,14 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.messaging.FirebaseMessaging;
+import com.google.firebase.messaging.RemoteMessage;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class HomeActivity extends AppCompatActivity {
 
@@ -28,6 +44,15 @@ public class HomeActivity extends AppCompatActivity {
     ViewPager viewPager;
     static FirebaseDatabase firebaseDatabase;
     DatabaseReference databaseReference;
+    final private String FCM_API = "https://fcm.googleapis.com/fcm/send";
+    final private String serverKey = "key=" + "AAAAZki8rck:APA91bGIdYfinRDbRf51zGXOfIdZlFFZsswRgjaCn3DqJF2WSwXlRo_oW-EHtO7MQ-jjJDeFlhzB_6nLx2Gayy6ht7p0M0oiGCc9N1fnKa-sRPbpCuuNCfFKUAE4NlDegoYpabMexzSS";
+    final private String contentType = "application/json";
+    final String TAG = "NOTIFICATION TAG";
+
+    String NOTIFICATION_TITLE;
+    String NOTIFICATION_MESSAGE;
+    String TOPIC;
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -60,10 +85,100 @@ public class HomeActivity extends AppCompatActivity {
             startActivity(j);
             return true;
         }
+//        else if(item.getItemId() == R.id.ItemSendNotification){
+//            sendNotify();
+//            return true;
+//        }
+//        else if(item.getItemId() == R.id.ItemSubscribe){
+//            subscribeToTopic();
+//            return true;
+//        }
 
         return false;
 
     }
+
+    public void sendNotify(){
+
+        TOPIC ="/topics/animalhelp";// "/topics/userABC"; //topic must match with what the receiver subscribed to
+        NOTIFICATION_TITLE = "ANIMAL CASES";//edtTitle.getText().toString();
+        NOTIFICATION_MESSAGE = "please help";//edtMessage.getText().toString();
+
+        JSONObject notification = new JSONObject();
+        JSONObject notifcationBody = new JSONObject();
+        try {
+            notifcationBody.put("title", NOTIFICATION_TITLE);
+            notifcationBody.put("message", NOTIFICATION_MESSAGE);
+
+            notification.put("to", TOPIC);
+            notification.put("data", notifcationBody);
+        } catch (JSONException e) {
+            Log.e(TAG, "onCreate: " + e.getMessage() );
+        }
+        sendNotification(notification);
+
+
+        // The topic name can be optionally prefixed with "/topics/".
+        //String topic = "animalhelp";
+
+// See documentation on defining a message payload.
+//        NotificationCompat.MessagingStyle.Message message = NotificationCompat.MessagingStyle.Message.builder()
+//                .putData("score", "850")
+//                .putData("time", "2:45")
+//                .setTopic(topic)
+//                .build();
+       // Bundle myMsgBundle = new Bundle();
+        //myMsgBundle.put
+        //RemoteMessage remoteMessage = new RemoteMessage();
+
+// Send a message to the devices subscribed to the provided topic.
+        //String response = FirebaseMessaging.getInstance().send(message);
+// Response is a message ID string.
+        //System.out.println("Successfully sent message: " + response);
+    }
+
+    private void sendNotification(JSONObject notification) {
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(FCM_API, notification,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        Log.i(TAG, "onResponse: " + response.toString());
+//                        edtTitle.setText("");
+//                        edtMessage.setText("");
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Toast.makeText(HomeActivity.this, "Request error", Toast.LENGTH_LONG).show();
+                        Log.i(TAG, "onErrorResponse: Didn't work");
+                    }
+                }){
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> params = new HashMap<>();
+                params.put("Authorization", serverKey);
+                params.put("Content-Type", contentType);
+                return params;
+            }
+        };
+        MySingleton.getInstance(getApplicationContext()).addToRequestQueue(jsonObjectRequest);
+    }
+
+//    public void subscribeToTopic(){
+//        FirebaseMessaging.getInstance().subscribeToTopic("animalhelp")
+//                .addOnCompleteListener(new OnCompleteListener<Void>() {
+//                    @Override
+//                    public void onComplete(@NonNull Task<Void> task) {
+//                        String msg = "Subscribed to Topic";//getString(R.string.msg_subscribed);
+//                        if (!task.isSuccessful()) {
+//                            msg = "Failed to subscribe";//getString(R.string.msg_subscribe_failed);
+//                        }
+//                        Log.i("TAGSEND",msg);
+//                        Toast.makeText(HomeActivity.this, msg, Toast.LENGTH_SHORT).show();
+//                    }
+//                });
+//    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

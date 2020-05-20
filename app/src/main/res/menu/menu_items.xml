@@ -7,4 +7,11 @@
     <item
         android:title="Log out"
         android:id="@+id/ItemLogout"/>
+    <!--
+    <item
+        android:title="Send Notification"
+        android:id="@+id/ItemSendNotification"/>
+    <item
+        android:title="Subscribe"
+        android:id="@+id/ItemSubscribe"/> -->
 </menu>

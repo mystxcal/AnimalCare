@@ -74,7 +74,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="30dp"
-        android:layout_marginTop="41dp"
+        android:layout_marginTop="20dp"
         android:layout_marginEnd="30dp"
         android:layout_marginBottom="26dp"
         android:ems="10"
@@ -82,6 +82,7 @@
         android:inputType="textEmailAddress"
         app:layout_constraintBottom_toTopOf="@+id/LoginPassword"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/Maintext" />
 
@@ -89,7 +90,7 @@
         android:id="@+id/Maintext"
         android:layout_width="345dp"
         android:layout_height="63dp"
-        android:layout_marginTop="104dp"
+        android:layout_marginTop="80dp"
         android:text="Welcome to Animal Care"
         android:textAlignment="center"
         android:textColor="@color/common_google_signin_btn_text_dark_focused"
@@ -97,7 +98,23 @@
         android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/LoginUsername"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.454"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/TextViewAnimalRescue"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="150dp"
+        android:background="@drawable/border_frame"
+        android:fontFamily="sans-serif-condensed-medium"
+        android:padding="10dp"
+        android:text="Animal Rescue Volunteer ? Click Here"
+        android:textColor="#008577"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="@+id/Signupbtn"
+        app:layout_constraintStart_toStartOf="@+id/frgtpassbutton"
+        app:layout_constraintTop_toBottomOf="@+id/Loginbtn" />
 </androidx.constraintlayout.widget.ConstraintLayout>

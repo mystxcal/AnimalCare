@@ -9,6 +9,7 @@
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
 
     <uses-feature
         android:name="android.hardware.Camera"
@@ -21,14 +22,28 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".CreatePostActivity"></activity>
+        <activity android:name=".RescueActivity"></activity>
+        <activity android:name=".AnimalRescueLoginActivity" />
+        <!--
+        android:enabled="true"
+            android:exported="true">
+        -->
+        <service
+            android:name=".MyFirebaseNotification"
+            android:permission="com.google.android.c2dm.permission.SEND">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+                <action android:name="com.google.android.c2dm.intent.RECEIVE" />
+            </intent-filter>
+        </service>
+
+        <activity android:name=".CreatePostActivity" />
         <activity android:name=".HomeActivity" />
         <activity android:name=".Signup" />
-        <activity android:name=".profile"/>
-        <activity android:name=".editprofile"/>
-        <activity android:name=".ForgotPass"/>
+        <activity android:name=".profile" />
+        <activity android:name=".editprofile" />
+        <activity android:name=".ForgotPass" />
         <activity android:name=".MainActivity">
-
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
