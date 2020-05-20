@@ -97,12 +97,11 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_margin="30dp"
-            android:text="Get Help"
-            android:textAllCaps="false"
-            android:textSize="20sp"
             android:background="@drawable/border_frame"
             android:padding="10dp"
-            />
+            android:text="Get Help"
+            android:textAllCaps="false"
+            android:textSize="20sp" />
 
     </LinearLayout>
 </FrameLayout>
