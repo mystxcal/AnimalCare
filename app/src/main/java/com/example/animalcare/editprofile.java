@@ -57,6 +57,7 @@ public class editprofile extends AppCompatActivity {
     DatabaseReference dr;
     profileData records;
     ProgressDialog progressDialog;
+    private  int isHome=0;
 
     FirebaseUser u= FirebaseAuth.getInstance().getCurrentUser();
 
@@ -100,6 +101,8 @@ public class editprofile extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_editprofile);
 
+        isHome = getIntent().getIntExtra("home",0);
+        Log.i("ISHOME","->"+isHome);
         imagedef=(CircleImageView) findViewById(R.id.profileImage);
         imagedef.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -213,9 +216,15 @@ public String fileExtension(Uri uri)
                      Toast.makeText(editprofile.this,"Photo uploaded",Toast.LENGTH_LONG).show();
                      progressDialog.cancel();
                      Log.i("yessss", "onSuccess");
-                     //Intent i = new Intent(editprofile.this , HomeActivity.class);
-                     finish();
-                     //startActivity(i);
+                     if(isHome ==0) {
+                         //Intent i = new Intent(editprofile.this , HomeActivity.class);
+                         finish();
+                         //startActivity(i);
+                       }else  if(isHome==1){
+                         Intent i = new Intent(editprofile.this , HomeActivity.class);
+                         finish();
+                         startActivity(i);
+                    }
 
                  }
              })

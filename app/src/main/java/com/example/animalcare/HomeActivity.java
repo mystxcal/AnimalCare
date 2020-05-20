@@ -87,6 +87,7 @@ public class HomeActivity extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 if(dataSnapshot.child("name").getValue()==null){
                     Intent i = new Intent(HomeActivity.this , editprofile.class);
+                    i.putExtra("home",1);
                     finish();
                     startActivity(i);
                 }
