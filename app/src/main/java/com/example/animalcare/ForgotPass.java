@@ -36,7 +36,7 @@ public class ForgotPass extends AppCompatActivity {
                         @Override
                         public void onComplete(@NonNull Task<Void> task) {
                             if (task.isSuccessful()) {
-                                Toast.makeText(ForgotPass.this, "Email Sent", Toast.LENGTH_LONG).show();
+                                Toast.makeText(ForgotPass.this, "Reset Link Sent to Email", Toast.LENGTH_LONG).show();
                             }
                         }
                     });
