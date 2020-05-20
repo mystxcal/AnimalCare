@@ -3,6 +3,7 @@ package com.example.animalcare;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -35,48 +36,33 @@ public class profile extends AppCompatActivity {
 
 FirebaseDatabase dt;
 DatabaseReference reff;
-TextView a,b,c;
+static TextView a,b,c;
 CircleImageView image;
 Button refresh;
+private ProgressDialog progressDialog;
 
     FirebaseStorage storage=FirebaseStorage.getInstance();
     FirebaseUser u= FirebaseAuth.getInstance().getCurrentUser();
-    StorageReference sr=storage.getReference("ProfileImg").child(u.getUid()+".jpeg");
+    StorageReference sr=storage.getReference("ProfileImg").child(u.getUid());
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.profile);
 
+        progressDialog = new ProgressDialog(profile.this);
+        progressDialog.setMessage("Loading your Profile !");
+        progressDialog.setCancelable(false);
+        progressDialog.show();
 
-
-        image=(CircleImageView) findViewById(R.id.profileImage);
-        try{
-            final File files =File.createTempFile("image","jpeg");
-
-        sr.getFile(files).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
-            @Override
-            public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
-                Bitmap bitmap= BitmapFactory.decodeFile(files.getAbsolutePath());
-                image.setImageBitmap(bitmap);
-                Toast.makeText(profile.this,"image set",Toast.LENGTH_LONG).show();
-            }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                Toast.makeText(profile.this,"image not set",Toast.LENGTH_LONG).show();
-            }
-        });}
-        catch(IOException e)
-    {
-        e.printStackTrace();
-    }
+        image=findViewById(R.id.profileI);
 
         Button edit=findViewById(R.id.Editbtn);
         edit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent =new Intent(profile.this, editprofile.class);
+                finish();
                 startActivity(intent);
             }
         });
@@ -84,6 +70,12 @@ Button refresh;
         a=(TextView) findViewById(R.id.namet);
         b=(TextView) findViewById(R.id.aboutt);
         c=(TextView) findViewById(R.id.contactt);
+//        if(a.getText().toString().equals("")){
+//            Toast.makeText(profile.this, "Please update your profile", Toast.LENGTH_LONG).show();
+//            Intent intent =new Intent(profile.this, editprofile.class);
+//            finish();
+//            startActivity(intent);
+//        }
        // refresh=(Button) findViewById(R.id.Refresh);
 
         //refresh.setOnClickListener(new View.OnClickListener() {
@@ -97,18 +89,25 @@ Button refresh;
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
+                        if(dataSnapshot.child("name").getValue()!=null){
+                            Log.i("ISNULL","TRUE");
+//                            Toast.makeText(profile.this, "Please update your profile", Toast.LENGTH_LONG).show();
+//                            Intent intent =new Intent(profile.this, editprofile.class);
+//                            finish();
+//                            startActivity(intent);
+                        //}else {
+                            String name = dataSnapshot.child("name").getValue().toString();
+                            String about = dataSnapshot.child("about").getValue().toString();
+                            String no = dataSnapshot.child("no").getValue().toString();
+                            FirebaseUser u = FirebaseAuth.getInstance().getCurrentUser();
+                            editprofile x;
 
-                        String name=dataSnapshot.child("name").getValue().toString();
-                        String about=dataSnapshot.child("about").getValue().toString();
-                        String no=dataSnapshot.child("no").getValue().toString();
-                        FirebaseUser u= FirebaseAuth.getInstance().getCurrentUser();
-                        editprofile x;
-
-                        a.setText(name);
-                        b.setText(about);
-                        c.setText(no);
-                        Toast.makeText(profile.this,"Refreshed",Toast.LENGTH_LONG).show();
-
+                            a.setText(name);
+                            b.setText(about);
+                            c.setText(no);
+                            loadImage();
+                            //Toast.makeText(profile.this, "Refreshed", Toast.LENGTH_LONG).show();
+                        }
                     }
 
                     @Override
@@ -122,5 +121,32 @@ Button refresh;
 
 
 
+    }
+
+    public void loadImage(){
+        try{
+            final File files =File.createTempFile("image","jpeg");
+
+            sr.getFile(files).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
+                @Override
+                public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
+                    Bitmap bitmap= BitmapFactory.decodeFile(files.getAbsolutePath());
+                    if(bitmap!=null) {
+                        image.setImageBitmap(bitmap);
+                        Toast.makeText(profile.this, "Profile Loaded !", Toast.LENGTH_LONG).show();
+                        progressDialog.cancel();
+                    }
+                }
+            }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    Toast.makeText(profile.this,"Error while loading...",Toast.LENGTH_LONG).show();
+                    progressDialog.cancel();
+                }
+            });}
+        catch(IOException e)
+        {
+            e.printStackTrace();
+        }
     }
 }

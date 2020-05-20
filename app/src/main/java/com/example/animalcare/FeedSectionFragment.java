@@ -1,5 +1,6 @@
 package com.example.animalcare;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 
@@ -47,6 +48,7 @@ public class FeedSectionFragment extends Fragment {
     private static FirebaseDatabase firebaseDatabase;
     private DatabaseReference databaseReference;
     private String ImageUrlsList;
+    private ProgressDialog progressDialog;
 
     public FeedSectionFragment() {
         // Required empty public constructor
@@ -66,6 +68,11 @@ public class FeedSectionFragment extends Fragment {
         listView = view.findViewById(R.id.listView);
         floatingActionButton = view.findViewById(R.id.floatingActionButton);
         swipeRefreshLayout = view.findViewById(R.id.refreshLayout);
+
+        progressDialog = new ProgressDialog(getContext());
+        progressDialog.setMessage("Updating the Feed....");
+        progressDialog.setCancelable(false);
+        progressDialog.show();
 
         firebaseAuth =FirebaseAuth.getInstance();
         firebaseDatabase = HomeActivity.firebaseDatabase;
@@ -138,6 +145,8 @@ public class FeedSectionFragment extends Fragment {
                         blogDataArrayList.add(tempList.get(i));
                         customListViewAdapter.notifyDataSetChanged();
                     }
+                    if(progressDialog.isShowing())
+                        progressDialog.cancel();
                 }
 
             }

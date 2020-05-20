@@ -6,6 +6,7 @@ import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.Manifest;
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.ContentResolver;
 import android.content.Intent;
@@ -54,12 +55,22 @@ public class editprofile extends AppCompatActivity {
     Uri selectedImage;
     CircleImageView image;
     DatabaseReference dr;
+    profileData records;
+    ProgressDialog progressDialog;
 
     FirebaseUser u= FirebaseAuth.getInstance().getCurrentUser();
 
 
     public void getPhoto(){
         Intent intent=new Intent(Intent.ACTION_PICK,MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+//        Intent intent = new Intent();
+//        intent.setType("image/*");
+//        intent.setAction(Intent.ACTION_GET_CONTENT);
+//        startActivityForResult(
+//                Intent.createChooser(
+//                        intent,
+//                        "Select Image from here..."),
+//                1);
         startActivityForResult(intent,1);
     }
     CircleImageView imagedef;
@@ -117,14 +128,19 @@ public class editprofile extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
+                progressDialog = new ProgressDialog(editprofile.this);
+                progressDialog.setMessage("Upadting your profile, Please Wait :)");
+                progressDialog.setCancelable(false);
+                progressDialog.show();
+
                 String name=nameT.getText().toString();
                 String about=aboutT.getText().toString();
                 String no=contactT.getText().toString();
                 //url();
 
                 store= FirebaseStorage.getInstance().getReference("ProfileImg");
-                upload();
-                profileData records=new profileData(name,about,no);
+                //upload();
+                records=new profileData(name,about,no);
 
                 if(!name.isEmpty() && !about.isEmpty() && !no.isEmpty())
                 {
@@ -140,17 +156,19 @@ public class editprofile extends AppCompatActivity {
                             if(task.isSuccessful())
                             {
                                 Toast.makeText(editprofile.this,"Successfully Saved",Toast.LENGTH_LONG).show();
+                                upload();
                             }
                             else
                             {
-                                Toast.makeText(editprofile.this,"Unsuccessfull",Toast.LENGTH_LONG).show();
+                                progressDialog.cancel();
+                                Toast.makeText(editprofile.this,"Unsuccessfull,Please Try Again !",Toast.LENGTH_LONG).show();
                             }
                         }
                     });
                 }
                 else
                 {
-                    Toast.makeText(editprofile.this,"FIll all Details",Toast.LENGTH_LONG).show();
+                    Toast.makeText(editprofile.this,"Fill all Details",Toast.LENGTH_LONG).show();
                 }
             }
 
@@ -184,15 +202,20 @@ public String fileExtension(Uri uri)
  private void upload()
  {
 
-     StorageReference ref=store.child(u.getUid()+"."+fileExtension(selectedImage));
+     StorageReference ref=store.child(u.getUid());//+"."+fileExtension(selectedImage));
+     Log.i("IMGURI","->"+selectedImage);
      ref.putFile(selectedImage)
              .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                  @Override
                  public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                      // Get a URL to the uploaded content
                     // Uri downloadUrl = taskSnapshot.getDownloadUrl();
-                     Toast.makeText(editprofile.this,"photo uploaded",Toast.LENGTH_LONG).show();
+                     Toast.makeText(editprofile.this,"Photo uploaded",Toast.LENGTH_LONG).show();
+                     progressDialog.cancel();
                      Log.i("yessss", "onSuccess");
+                     //Intent i = new Intent(editprofile.this , HomeActivity.class);
+                     finish();
+                     //startActivity(i);
 
                  }
              })
@@ -201,6 +224,8 @@ public String fileExtension(Uri uri)
                  public void onFailure(@NonNull Exception exception) {
                      // Handle unsuccessful uploads
                      // ...
+                     Toast.makeText(editprofile.this,"Error while Uploading Photo,Please Try Again",Toast.LENGTH_LONG).show();
+                     progressDialog.cancel();
                      Log.i("NOOOOO", "onFailure: ");
                  }
  });
