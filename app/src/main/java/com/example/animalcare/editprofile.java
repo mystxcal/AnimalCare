@@ -57,6 +57,7 @@ public class editprofile extends AppCompatActivity {
     DatabaseReference dr;
     profileData records;
     ProgressDialog progressDialog;
+    Bitmap bitmap;
     private  int isHome=0;
 
     FirebaseUser u= FirebaseAuth.getInstance().getCurrentUser();
@@ -136,45 +137,41 @@ public class editprofile extends AppCompatActivity {
                 progressDialog.setCancelable(false);
                 progressDialog.show();
 
-                String name=nameT.getText().toString();
-                String about=aboutT.getText().toString();
-                String no=contactT.getText().toString();
+                String name = nameT.getText().toString();
+                String about = aboutT.getText().toString();
+                String no = contactT.getText().toString();
                 //url();
 
-                store= FirebaseStorage.getInstance().getReference("ProfileImg");
+                store = FirebaseStorage.getInstance().getReference("ProfileImg");
                 //upload();
-                records=new profileData(name,about,no);
+                records = new profileData(name, about, no);
 
-                if(!name.isEmpty() && !about.isEmpty() && !no.isEmpty())
-                {
-
-
-                    dr=mydatabase.getReference("ProfileData");
-
-
+                if (!name.isEmpty() && !about.isEmpty() && !no.isEmpty() && bitmap != null) {
+//                    if(bitmap==null){
+//                        Toast.makeText(editprofile.this,"Please Select a Image",Toast.LENGTH_LONG).show();
+//                        progressDialog.cancel();
+//                        return;
+//                    }else {
+                    dr = mydatabase.getReference("ProfileData");
 
                     dr.child(u.getUid()).setValue(records).addOnCompleteListener(new OnCompleteListener<Void>() {
                         @Override
                         public void onComplete(@NonNull Task<Void> task) {
-                            if(task.isSuccessful())
-                            {
-                                Toast.makeText(editprofile.this,"Successfully Saved",Toast.LENGTH_LONG).show();
+                            if (task.isSuccessful()) {
+                                Toast.makeText(editprofile.this, "Successfully Saved", Toast.LENGTH_LONG).show();
                                 upload();
-                            }
-                            else
-                            {
+                            } else {
                                 progressDialog.cancel();
-                                Toast.makeText(editprofile.this,"Unsuccessfull,Please Try Again !",Toast.LENGTH_LONG).show();
+                                Toast.makeText(editprofile.this, "Unsuccessfull,Please Try Again !", Toast.LENGTH_LONG).show();
                             }
                         }
                     });
+                } else {
+                    Toast.makeText(editprofile.this, "Fill all Details", Toast.LENGTH_LONG).show();
+                    progressDialog.cancel();
                 }
-                else
-                {
-                    Toast.makeText(editprofile.this,"Fill all Details",Toast.LENGTH_LONG).show();
-                }
-            }
 
+            }
 
 
         });
@@ -248,8 +245,8 @@ public String fileExtension(Uri uri)
             selectedImage=data.getData();
 
             try{
-                Bitmap bitmap= MediaStore.Images.Media.getBitmap(this.getContentResolver(),selectedImage);
-                 image=(CircleImageView) findViewById(R.id.profileImage);
+                bitmap= MediaStore.Images.Media.getBitmap(this.getContentResolver(),selectedImage);
+                image=(CircleImageView) findViewById(R.id.profileImage);
                 image.setImageBitmap(bitmap);
             }catch (IOException e)
             {
