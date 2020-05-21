@@ -59,6 +59,7 @@ public class CreatePostActivity extends AppCompatActivity {
     FirebaseUser firebaseUser;
     ProgressDialog progressDialog;
 
+
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);

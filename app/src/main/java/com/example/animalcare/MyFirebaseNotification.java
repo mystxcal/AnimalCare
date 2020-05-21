@@ -92,41 +92,12 @@ public class MyFirebaseNotification extends FirebaseMessagingService {
                     .setSound(notificationSoundUri)
                     .setContentIntent(pendingIntent);
 
-            //try {
-//                Log.i("USERNAME", "->"+remoteMessage.getData().get("userName"));
-//                Log.i("ANIMALTYPE","->"+ remoteMessage.getData().get("animalType"));
-//                Log.i("Location","->"+ remoteMessage.getData().get("location"));
-//                Log.i("LAT", "->"+remoteMessage.getData().get("lat"));
-//                Log.i("LNG", "->"+remoteMessage.getData().get("lng"));
-//            }catch (Exception e){
-//                Log.i("WHATISERROR","->" +e.getMessage());
-//            }
-
-
-            //Set notification color to match your app color template
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                 notificationBuilder.setColor(getResources().getColor(R.color.colorPrimaryDark));
             }
             notificationManager.notify(notificationID, notificationBuilder.build());
 
 
-            // super.onMessageReceived(remoteMessage);
-
-//        Log.i("NOTIFMSG","RECEIVED");
-//
-//        NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this, "channel_id")
-//                .setContentTitle(remoteMessage.getNotification().getTitle())
-//                .setContentText(remoteMessage.getNotification().getBody())
-//                .setPriority(NotificationCompat.PRIORITY_DEFAULT)
-//                .setStyle(new NotificationCompat.BigTextStyle())
-//                .setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION))
-//                .setSmallIcon(R.mipmap.ic_launcher)
-//                .setAutoCancel(true);
-//
-//        NotificationManager notificationManager =
-//                (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-//
-//        notificationManager.notify(0, notificationBuilder.build());
         }
     }
 

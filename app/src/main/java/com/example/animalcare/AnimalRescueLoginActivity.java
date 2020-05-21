@@ -93,23 +93,7 @@ public class AnimalRescueLoginActivity extends AppCompatActivity {
 //                            }
 //                        }
 //
-//                        @Override
-//                        public void onCancelled(@NonNull DatabaseError databaseError) {
-//
-//                        }
-//                    });
-//
-//                    if(!tempPwd.equals("")){
-//                        if(tempPwd.equals(password)){
-////                            Intent intent = new Intent(AnimalRescueLoginActivity.this,.class);
-////                            finish();
-////                            startActivity(intent);
-//                        }
-//                        else{
-//                            Toast.makeText(AnimalRescueLoginActivity.this, "Incorrect Password", Toast.LENGTH_SHORT).show();
-//                            return;
-//                        }
-//                    }
+
 
                 }
 

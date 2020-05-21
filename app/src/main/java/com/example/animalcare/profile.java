@@ -76,13 +76,7 @@ private ProgressDialog progressDialog;
 //            finish();
 //            startActivity(intent);
 //        }
-       // refresh=(Button) findViewById(R.id.Refresh);
 
-        //refresh.setOnClickListener(new View.OnClickListener() {
-           // @Override
-            //public void onClick(View view) {
-                //FirebaseUser u= FirebaseAuth.getInstance().getCurrentUser();
-                //String x=u.toString();
                 reff=FirebaseDatabase.getInstance().getReference("ProfileData").child(u.getUid());
 
                 reff.addValueEventListener(new ValueEventListener() {

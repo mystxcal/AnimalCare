@@ -65,14 +65,7 @@ public class editprofile extends AppCompatActivity {
 
     public void getPhoto(){
         Intent intent=new Intent(Intent.ACTION_PICK,MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-//        Intent intent = new Intent();
-//        intent.setType("image/*");
-//        intent.setAction(Intent.ACTION_GET_CONTENT);
-//        startActivityForResult(
-//                Intent.createChooser(
-//                        intent,
-//                        "Select Image from here..."),
-//                1);
+
         startActivityForResult(intent,1);
     }
     CircleImageView imagedef;
@@ -90,11 +83,6 @@ public class editprofile extends AppCompatActivity {
         }
     }
 
-
-    //public profile(String uid)
-    // {
-    //this.uid=uid;
-    //}
 
     @RequiresApi(api = Build.VERSION_CODES.M)
     @Override

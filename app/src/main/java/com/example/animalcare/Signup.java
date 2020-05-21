@@ -55,23 +55,7 @@ public class Signup extends AppCompatActivity {
                 else if(!email.isEmpty() && !passwd.isEmpty())
                 {
 
-//                    fb.createUserWithEmailAndPassword(email,passwd).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-//                        @Override
-//                        public void onComplete(@NonNull Task<AuthResult> task) {
-//                            if(!task.isSuccessful())
-//                            {
-//                                Toast.makeText(Signup.this,"SignUp Failed",Toast.LENGTH_LONG).show();
-//                            }
-//                            else
-//                            {
-//                                Toast.makeText(Signup.this,"SignUp Successfull",Toast.LENGTH_LONG).show();
 
-//                               // sendemailverification();
-//                               // startActivity(new Intent(Signup.this,HomeActivity.class));
-//
-//                            }
-//                        }
-//                    });
 
                     fb.createUserWithEmailAndPassword(email,passwd).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                         @Override

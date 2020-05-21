@@ -85,14 +85,6 @@ public class HomeActivity extends AppCompatActivity {
             startActivity(j);
             return true;
         }
-//        else if(item.getItemId() == R.id.ItemSendNotification){
-//            sendNotify();
-//            return true;
-//        }
-//        else if(item.getItemId() == R.id.ItemSubscribe){
-//            subscribeToTopic();
-//            return true;
-//        }
 
         return false;
 
@@ -117,24 +109,6 @@ public class HomeActivity extends AppCompatActivity {
         }
         sendNotification(notification);
 
-
-        // The topic name can be optionally prefixed with "/topics/".
-        //String topic = "animalhelp";
-
-// See documentation on defining a message payload.
-//        NotificationCompat.MessagingStyle.Message message = NotificationCompat.MessagingStyle.Message.builder()
-//                .putData("score", "850")
-//                .putData("time", "2:45")
-//                .setTopic(topic)
-//                .build();
-       // Bundle myMsgBundle = new Bundle();
-        //myMsgBundle.put
-        //RemoteMessage remoteMessage = new RemoteMessage();
-
-// Send a message to the devices subscribed to the provided topic.
-        //String response = FirebaseMessaging.getInstance().send(message);
-// Response is a message ID string.
-        //System.out.println("Successfully sent message: " + response);
     }
 
     private void sendNotification(JSONObject notification) {
@@ -165,20 +139,6 @@ public class HomeActivity extends AppCompatActivity {
         MySingleton.getInstance(getApplicationContext()).addToRequestQueue(jsonObjectRequest);
     }
 
-//    public void subscribeToTopic(){
-//        FirebaseMessaging.getInstance().subscribeToTopic("animalhelp")
-//                .addOnCompleteListener(new OnCompleteListener<Void>() {
-//                    @Override
-//                    public void onComplete(@NonNull Task<Void> task) {
-//                        String msg = "Subscribed to Topic";//getString(R.string.msg_subscribed);
-//                        if (!task.isSuccessful()) {
-//                            msg = "Failed to subscribe";//getString(R.string.msg_subscribe_failed);
-//                        }
-//                        Log.i("TAGSEND",msg);
-//                        Toast.makeText(HomeActivity.this, msg, Toast.LENGTH_SHORT).show();
-//                    }
-//                });
-//    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -211,7 +171,7 @@ public class HomeActivity extends AppCompatActivity {
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
-
+                Log.i("ONCANCEL","Cancelled");
             }
         });
 

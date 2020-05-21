@@ -101,23 +101,6 @@ public class FeedSectionFragment extends Fragment {
 
     }
 
-//    public void refreshData(){
-//
-//        blogDataArrayList = new ArrayList<>();
-//        for(int i=tempList.size()-1;i>=0;i--){
-//            Log.i("ISFROMCACHE","->"+blogDataArrayList.size());
-//            if(blogDataArrayList.size()==0){
-//                blogDataArrayList.add(tempList.get(i));
-//                Log.i("ARRCOUNT","->"+blogDataArrayList.size());
-//                customListViewAdapter = new CustomListViewAdapter(getContext(),blogDataArrayList);
-//                listView.setAdapter(customListViewAdapter);
-//            }else {
-//                blogDataArrayList.add(tempList.get(i));
-//                customListViewAdapter.notifyDataSetChanged();
-//            }
-//        }
-//
-//    }
 
     public void updateTheData(){
         databaseReference = firebaseDatabase.getReference("BlogData");

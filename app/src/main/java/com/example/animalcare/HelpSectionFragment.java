@@ -179,9 +179,6 @@ public class HelpSectionFragment extends Fragment {
                 e.printStackTrace();
             }
 
-//                Bundle bundle = data.getExtras();
-//             animalBitmap = (Bitmap) bundle.get("data");
-//            animalImageView.setImageBitmap(animalBitmap);
         }
     }
 
@@ -213,25 +210,6 @@ public class HelpSectionFragment extends Fragment {
             Log.e(TAG, "onCreate: " + e.getMessage() );
         }
         sendNotification(notification);
-
-
-        // The topic name can be optionally prefixed with "/topics/".
-        //String topic = "animalhelp";
-
-// See documentation on defining a message payload.
-//        NotificationCompat.MessagingStyle.Message message = NotificationCompat.MessagingStyle.Message.builder()
-//                .putData("score", "850")
-//                .putData("time", "2:45")
-//                .setTopic(topic)
-//                .build();
-        // Bundle myMsgBundle = new Bundle();
-        //myMsgBundle.put
-        //RemoteMessage remoteMessage = new RemoteMessage();
-
-// Send a message to the devices subscribed to the provided topic.
-        //String response = FirebaseMessaging.getInstance().send(message);
-// Response is a message ID string.
-        //System.out.println("Successfully sent message: " + response);
     }
 
     private void sendNotification(JSONObject notification) {
@@ -273,10 +251,7 @@ public class HelpSectionFragment extends Fragment {
     }
 
     private void getImageFromCamera(){
-//        Intent i = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-//        if (i.resolveActivity(getContext().getPackageManager()) != null) {
-//            startActivityForResult(i,1);
-//        }
+
         ContentValues values = new ContentValues();
         values.put(MediaStore.Images.Media.TITLE, "New Picture");
         values.put(MediaStore.Images.Media.DESCRIPTION, "From your Camera");
@@ -430,18 +405,9 @@ public class HelpSectionFragment extends Fragment {
 
                 if(dataSnapshot.child("name").getValue()!=null){
                     Log.i("ISNULL","TRUE");
-//                            Toast.makeText(profile.this, "Please update your profile", Toast.LENGTH_LONG).show();
-//                            Intent intent =new Intent(profile.this, editprofile.class);
-//                            finish();
-//                            startActivity(intent);
-                    //}else {
                      Pname = dataSnapshot.child("name").getValue().toString();
-                    //String Pabout = dataSnapshot.child("about").getValue().toString();
                      Pno = dataSnapshot.child("no").getValue().toString();
                      sendNotify(animalHelpCase);
-                   // FirebaseUser u = FirebaseAuth.getInstance().getCurrentUser();
-
-                    //Toast.makeText(profile.this, "Refreshed", Toast.LENGTH_LONG).show();
                 }
             }
 

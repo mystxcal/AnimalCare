@@ -21,9 +21,6 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
-import com.google.firebase.iid.FirebaseInstanceId;
-import com.google.firebase.iid.InstanceIdResult;
 
 public class MainActivity extends AppCompatActivity {
     FirebaseAuth fb;
@@ -52,25 +49,6 @@ public class MainActivity extends AppCompatActivity {
 
         fb= FirebaseAuth.getInstance();
         FirebaseUser fbUser = fb.getCurrentUser();
-//        FirebaseInstanceId.getInstance().getInstanceId()
-//                .addOnCompleteListener(new OnCompleteListener<InstanceIdResult>() {
-//                    @Override
-//                    public void onComplete(@NonNull Task<InstanceIdResult> task) {
-//                        if (!task.isSuccessful()) {
-//                            Log.i("TAGGY", "getInstanceId failed", task.getException());
-//                            return;
-//                        }
-//
-//                        // Get new Instance ID token
-//                        String token = task.getResult().getToken();
-//
-//                        // Log and toast
-//                        String msg = token;//getString(R.string.msg_token_fmt, token);
-//                        //Log.d(TAG, msg);
-//                        Log.i("TOKKY",msg);
-//                        //Toast.makeText(MainActivity.this, msg, Toast.LENGTH_SHORT).show();
-//                    }
-//                });
 
 
         if(fbUser!=null && fbUser.isEmailVerified()){
