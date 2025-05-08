@@ -19,10 +19,3 @@ Welcome to the Animal Care app repository! This Android application is designed 
 | <img src="Images/Rescuer%20Registration.png" width="200"> | <img src="Images/Rescue%20Request.png" width="200"> | <img src="Images/Blog.png" width="200"> |
 | Rescuers can register to join the Animal Care network and actively participate in animal rescue missions. | Details of rescue requests, including location, live tracking, and photos of the injured animal, are provided to nearby rescuers. | Explore informative content related to animal care, rescue stories, and more through the app's blog section. |
 
-## Getting Started
-
-To contribute to the Animal Care app or set it up locally, follow these steps:
-
-1. Clone the repository:
-   ```bash
-   git clone https://github.com/your-username/animal-care-app.git
